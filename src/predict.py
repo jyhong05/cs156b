@@ -104,7 +104,7 @@ def main() -> None:
     for i, label in enumerate(TARGET_PATHOLOGIES):
         test_df[label] = preds_arr[:, i]
 
-    test_df.to_csv("submission.csv", index=False)
+    test_df.to_csv("submissions/submission.csv", index=False)
     print("Saved submission.csv")
 
 
