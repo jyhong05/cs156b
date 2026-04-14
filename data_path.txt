@@ -1,0 +1,11 @@
+hpc login
+cd /.
+
+train data ("This csv file contains the paths to the train images as well as their labels. This is what you should use to train your models.")
+cd groups/CS156b/from_central/data/train/student_labels/train2023.csv 
+
+actual images (from csv in train data)
+cd groups/CS156b/from_central/data/train + the path given in the Path column of each CSV file
+
+eval data
+cd groups/CS156b/from_central/data/student_labels/test_ids.csv
