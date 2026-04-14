@@ -1,0 +1,8 @@
+numpy
+pandas
+Pillow
+matplotlib
+torch
+torchvision
+wandb
+jupyter
