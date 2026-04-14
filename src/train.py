@@ -16,6 +16,7 @@ def load_config(config_path: str):
 
 
 def main() -> None:
+	print("running training")
 	config_path = "configs/week1.json"
 	config = load_config(config_path)
 	device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -32,7 +33,7 @@ def main() -> None:
 	print("dataloader loaded")
 
 	model = CheXpertBaseline(num_classes=9).to(device)
-	criterion = nn.BCEWithLogitsLoss()
+	criterion = nn.MSELoss()
 	optimizer = torch.optim.Adam(model.parameters(), lr=float(config.get("learning_rate", 1e-3)))
 	epochs = max(1, min(int(config.get("epochs", 1)), 3))
 	print(f"running for {epochs} epochs")
@@ -61,7 +62,8 @@ def main() -> None:
 
 			optimizer.zero_grad()
 			logits = model(images)
-			loss = criterion(logits, labels)
+			probs = torch.sigmoid(logits)
+			loss = criterion(probs, labels)
 			loss.backward()
 			optimizer.step()
 

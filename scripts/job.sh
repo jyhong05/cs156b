@@ -14,4 +14,5 @@
 set -euo pipefail
 
 source /resnick/groups/CS156b/from_central/2026/h3/cs156b/venv/bin/activate
+python src/train.py
 python src/predict.py

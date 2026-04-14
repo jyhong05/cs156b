@@ -64,6 +64,7 @@ def find_path_column(df: pd.DataFrame) -> str:
 
 
 def main() -> None:
+    print("Running prediction")
     config = load_config("configs/week1.json")
     image_size = config.get("image_size", [256, 256])
     batch_size = config.get("batch_size", 32) # Pull from config or default to 32
