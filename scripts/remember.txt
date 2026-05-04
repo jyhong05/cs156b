@@ -1,0 +1,4 @@
+sbatch scripts/job.sh to run the job shell script with all hpc details
+squeue -u [username] to check on requested processes
+checkpoints saved to checkpoints folder (specified in files running)
+actual debug outputs in logs/slurm-[id].out

@@ -46,6 +46,7 @@ class CheXpertDataset(Dataset):
 
         self.df[self.targets] = self.df[self.targets].apply(pd.to_numeric, errors="coerce")
         self.df[self.targets] = self._apply_nan_policy(self.df[self.targets])
+        self.df[self.targets] = self._normalize_label_semantics(self.df[self.targets])
 
     @staticmethod
     def _find_path_column(df: pd.DataFrame) -> str:
@@ -67,6 +68,19 @@ class CheXpertDataset(Dataset):
             f"Unsupported nan_policy='{self.nan_policy}'. Use one of: zero, mean, ignore."
         )
 
+    @staticmethod
+    def _normalize_label_semantics(labels_df: pd.DataFrame) -> pd.DataFrame:
+        """Preserve the dataset's semantic encoding: -1=negative, 0=uncertain, 1=positive."""
+        allowed_values = {-1.0, 0.0, 1.0}
+        invalid_mask = ~labels_df.isna() & ~labels_df.isin(allowed_values)
+        if invalid_mask.any().any():
+            invalid_values = sorted(pd.unique(labels_df[invalid_mask].stack()))
+            raise ValueError(
+                "Unexpected label values found. Expected only -1, 0, 1, or NaN; "
+                f"got {invalid_values}."
+            )
+        return labels_df.astype(np.float32)
+
     def __len__(self) -> int:
         return len(self.df)
 
@@ -76,7 +90,7 @@ class CheXpertDataset(Dataset):
 
         image_ref = image_ref.strip()
         
-        # --- THE FIX: Clean the CSV path to match the cluster's modified file system ---
+        # Clean the CSV path to match the cluster's modified file system ---
         clean_ref = image_ref.replace("CheXpert-v1.0/", "")
         clean_ref = clean_ref.replace("train/", "").replace("valid/", "")
         clean_ref = clean_ref.replace("patient", "pid")

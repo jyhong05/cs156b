@@ -1,0 +1,19 @@
+{
+	"model_name": "customcnn",
+	"pretrained": false,
+	"train_csv": "/resnick/groups/CS156b/from_central/data/student_labels/train2023.csv",
+	"image_base_dir": "/resnick/groups/CS156b/from_central/data/train/",
+	"test_ids_csv": "/resnick/groups/CS156b/from_central/data/student_labels/test_ids.csv",
+	"test_image_base_dir": "/resnick/groups/CS156b/from_central/data/",
+	"cache_dir": "cache",
+	"image_size": [256, 256],
+	"nan_policy": "zero",
+	"batch_size": 16,
+	"num_workers": 4,
+	"epochs": 10,
+	"learning_rate": 0.001,
+	"checkpoint_path": "checkpoints/customcnn.pth",
+	"submission_path": "submissions/customcnn.csv",
+	"wandb_project": "cs156b-week1",
+	"wandb_run_name": "customcnn-10epoch"
+}
